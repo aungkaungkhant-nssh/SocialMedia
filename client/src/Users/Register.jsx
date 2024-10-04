@@ -84,6 +84,7 @@ function Register() {
                     fullWidth={true}
                     variant="contained"
                     disabled={loading}
+                    style={{padding:10,fontSize:17}}
                 >
                     {
                         loading ? <CircularProgress color='inherit' size={20} />

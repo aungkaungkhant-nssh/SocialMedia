@@ -35,7 +35,7 @@ export const fetchUser = async()=>{
             Authorization:`Bearer ${token}`
            }
         })
-
+        console.log(res.data)
         return res.data
     }catch(err){
         
@@ -57,9 +57,9 @@ export const postTweet = async(data)=>{
     }
 }
 
-export const fetchTweets = async(page)=>{
+export const fetchTweets = async({pageParam})=>{
     try{
-        let res = await axios.get(`${apiBase}/tweet?page=${page}`);
+        let res = await axios.get(`${apiBase}/tweet?page=${pageParam}`);
         return res.data
     }catch(err){
         return false

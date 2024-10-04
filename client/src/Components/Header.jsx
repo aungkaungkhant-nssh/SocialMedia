@@ -7,7 +7,8 @@ import {
     ArrowBack as ArrowBackIcon,
     Hub as HubIcon,
     PersonSearch as PersonSearchIcon,
-    Notifications as NotificationsIcon
+    Notifications as NotificationsIcon,
+    WbTwilight as WbTwilightIcon
 }
 from "@mui/icons-material"
 import Search from './Search';
@@ -32,6 +33,7 @@ function Header({notis,toggleDrawer}) {
     
     })()
   },[authStatus])
+
   return (
     <AppBar
         position='sticky'
@@ -48,7 +50,7 @@ function Header({notis,toggleDrawer}) {
                         sx={{mr:2,display:{md:"none"}}}
                         onClick={toggleDrawer(true)}
                     >
-                        <AccountCirlceIcon />
+                        <AccountCirlceIcon  sx={{fontSize:30}} />
                     </IconButton>
                 ):(
                     <IconButton
@@ -58,25 +60,26 @@ function Header({notis,toggleDrawer}) {
                         onClick={()=>{
                             navigate(-1)
                         }}
-                    >
-                            <ArrowBackIcon />
+                    >   
+                            <ArrowBackIcon  sx={{fontSize:30}} />
                     </IconButton>
                 )
             }
+            
             <IconButton
                 disableRipple={true}
                 sx={{flexGrow:1,textAlign:"center"}}
             >
-                <HubIcon sx={{color:"logo.color",fontSize:38}}/>
+                <WbTwilightIcon sx={{color:"logo.color",fontSize:38}}/>
             </IconButton>
             <IconButton
                 sx={{mr:1}}
                 color="inherit"
-                size="large"
                 edge="start"
                 onClick={()=>setSearchOpen(true)}
+          
             >
-                <PersonSearchIcon />
+                <PersonSearchIcon sx={{fontSize:30}}/>
             </IconButton>
             {
                 authStatus && (
@@ -86,10 +89,10 @@ function Header({notis,toggleDrawer}) {
                     >
                         {notis.filter((noti)=>!noti.read).length > 0 ?(
                             <Badge badgeContent={notis.filter((noti)=>!noti.read).length} color="error" overlap="circular">
-                                 <NotificationsIcon  />
+                                 <NotificationsIcon   sx={{fontSize:30}}/>
                             </Badge>
                         ):(
-                            <NotificationsIcon  />
+                            <NotificationsIcon  sx={{fontSize:30}} />
                         )}
                      
                     </IconButton>

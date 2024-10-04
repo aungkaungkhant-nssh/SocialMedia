@@ -1,5 +1,5 @@
 import React, { createContext, useMemo,useState } from 'react'
-import { grey, pink, yellow } from "@mui/material/colors";
+import { grey, pink, yellow,blue } from "@mui/material/colors";
 import {createTheme, ThemeProvider} from "@mui/material/styles"
 import App from './App'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
@@ -24,7 +24,7 @@ function ThemedApp() {
                     background:grey[100]
                 },
                 appbar: {
-                    background: pink[500],
+                    background: blue[700],
                 },
                 logo: {
                     color: "white",

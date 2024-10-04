@@ -1,6 +1,5 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { useTheme } from "@mui/material/styles";
 import { Box, Fab, Snackbar,Alert } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
@@ -12,17 +11,15 @@ import Register from './Users/Register';
 import Login from './Users/Login'
 import Profile from './Main/Profile'
 import {
-  Add as AddIcon, NotListedLocationOutlined, SportsCricketOutlined
+  Add as AddIcon
 
 } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux';
 import AddTweet from './Form/AddTweet';
 import { useNavigate } from 'react-router-dom';
 import { setBottomMenutState, setDrawerState, setSnackbarOpen } from './features/uiSlice';
-import Loading from './Util/Loading';
 import BottomMenu from './Nav/BottomMenu';
 import Tweet from './Main/Tweet';
-
 import Followings from './Pages/Followings';
 import Followers from './Pages/Followers'
 import EditUser from './Users/EditUser';
@@ -30,26 +27,27 @@ import AddShare from './Form/AddShare';
 import Error from './Util/Error';
 import { io } from "socket.io-client";
 import Noti from './Pages/Noti';
-import { addNoti, setNoti } from './features/appSlice';
-import { fetchNoti } from './apiCall';
+import { addNoti } from './features/appSlice';
 import Likes from './Pages/Likes';
 import Shares from './Pages/Shares';
 var socket
 
 function App() {
-  const theme = useTheme();
 
   const {authStatus,user} = useSelector((state)=>state.auth);
   const navigate = useNavigate();
   const {snackbarOpen,bottomMenuState,drawerState} = useSelector((state)=>state.ui);
-  const isLoading= useSelector((state)=>state.app.status==="loading");  
   const dispatch = useDispatch();
-  const {count,page,total,notis} = useSelector((state)=>state.app);
+  const {notis} = useSelector((state)=>state.app);
   const [tweetIdOwner,setTweetIdOwner] = useState();
-
-  
   const toggleBottomMenu = (open,tweetIdOwner)=>event=>{
-   
+    if (
+			event.type === "keydown" &&
+			(event.key === "Tab" || event.key === "Shift")
+		) {
+			return;
+		}
+
     setTweetIdOwner(tweetIdOwner)
     dispatch(setBottomMenutState(open))
   }
@@ -83,7 +81,6 @@ function App() {
 
   return (
     <Box sx={{ml:{md:"280px",sm:0}}}>
-        {isLoading && <Loading />}
       	<CssBaseline />
         <Box>
             <Header notis={notis} toggleDrawer={toggleDrawer} />
@@ -97,9 +94,6 @@ function App() {
                   element={
                     <Home 
                     toggleBottomMenu={toggleBottomMenu}
-                    count={count}
-                    page={page}
-                    total={total}
                     />
                   }
                 />

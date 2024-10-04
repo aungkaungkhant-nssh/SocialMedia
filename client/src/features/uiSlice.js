@@ -12,7 +12,7 @@ import { createSlice } from "@reduxjs/toolkit";
             state.snackbarOpen = action.payload
         },
         setBottomMenutState:(state,action)=>{
-            state.bottomMenuState = action.payload
+             state.bottomMenuState = action.payload
         },
         setDrawerState:(state,action)=>{
             state.drawerState = action.payload

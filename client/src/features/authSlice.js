@@ -40,7 +40,6 @@ import { fetchUser } from '../apiCall';
 })
 
 export const checkAuth = createAsyncThunk("auth/checkAuth",async({},{rejectWithValue})=>{
-  
         let res = await fetchUser();
         return res;
     

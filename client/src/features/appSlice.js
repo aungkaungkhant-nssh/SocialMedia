@@ -1,5 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchTweet, fetchTweets, postNoti, putLike } from "../apiCall";
+import { fetchTweet, postNoti, putLike } from "../apiCall";
 import { io } from "socket.io-client";
 
 var socket;
@@ -15,7 +15,7 @@ const appSlice = createSlice({
         total:0,
         tweets:[],
         status:"idle",
-       
+        hasMore:false,
         notis:[]
     },
     reducers:{
@@ -94,6 +94,7 @@ const appSlice = createSlice({
              });
             
             state.tweets = state.tweets.map((tweet)=>{
+              
                 if(tweet._id === action.payload.target){
                     if(tweet.likes.includes(action.payload.actor)){
                         tweet.likes = tweet.likes.filter((t)=>t!==action.payload.actor)
@@ -123,26 +124,17 @@ const appSlice = createSlice({
                 return tweet;
             })
             
+        },
+        setTweets:(state,action)=>{
+            state.tweets = [...action.payload.tweets];
+            state.count = action.payload.count;
+            state.page = action.payload.page;
+            state.total = action.payload.total;
+            state.hasMore =action.payload.hasMore
         }
     },
     extraReducers:builder=>{
-       builder.addCase(fetchLatest.pending,(state)=>{
-        
-             state.status = "loading"
-        }).addCase(fetchLatest.fulfilled,(state,action)=>{
-            state.status = "idle"
-          
-            if(!action.payload){
-                state.tweets = []
-            }else{
-                state.tweets = [...action.payload.tweets];
-                state.count =  action.payload.count;
-                state.page = action.payload.page;
-                state.total = action.payload.total;
-            }
-            
-         
-        })
+        builder
         .addCase(fetchSingle.pending,(state)=>{
             state.status = "loading"
         })
@@ -160,18 +152,12 @@ const appSlice = createSlice({
 
 
 
-export const fetchLatest= createAsyncThunk("app/fetchLatest",async({page})=>{
 
-  
-    let result = await fetchTweets(page);
-    
-    return result;
-})
 export const fetchSingle = createAsyncThunk("app/fetchSingle",async({id})=>{
     let result = await fetchTweet(id);
     return result;
 })
 
 
-export const {addTweet,addComment,removeTweet,toggleLike,setNoti,addNoti,removeNoti,oneNotiRead,markAllNotiRead} = appSlice.actions;
+export const {addTweet,addComment,removeTweet,toggleLike,setNoti,addNoti,removeNoti,oneNotiRead,markAllNotiRead,setTweets} = appSlice.actions;
 export default appSlice.reducer;

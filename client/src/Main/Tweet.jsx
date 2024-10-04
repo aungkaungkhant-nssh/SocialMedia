@@ -2,7 +2,7 @@ import React, { useEffect,useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux';
 import { addComment, fetchSingle, toggleLike } from '../features/appSlice';
 import { useParams } from 'react-router-dom';
-import {Box, Card, CardContent,Avatar,Typography,IconButton,ButtonGroup,Button, FormControl, Input, InputAdornment, CardActionArea, Divider} from '@mui/material';
+import {Box, Card, CardContent,Avatar,Typography,IconButton,ButtonGroup,Button, FormControl, Input, InputAdornment, CardActionArea, Divider, Grid,useTheme} from '@mui/material';
 import {
 	Send as SendIcon,
 	Share as ShareIcon,
@@ -15,12 +15,16 @@ import { useNavigate } from 'react-router-dom';
 import { green } from '@mui/material/colors';
 import { formatRelative, parseISO } from "date-fns";
 import { addNewReply } from '../apiCall';
+import Images from '../Components/Images';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function Tweet({toggleBottomMenu}) {
+    const theme = useTheme()
     const dispatch = useDispatch();
     const {id} = useParams();
     const tweet = useSelector((state)=>state.app?.tweets?.find((t)=>t._id === id));
-    const { tweets }= useSelector((state)=>state.app)
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Mobile devices
+    const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md')); 
     const navigate = useNavigate();
     const {authStatus,user} = useSelector((state)=>state.auth);
     useEffect(()=>{
@@ -28,9 +32,11 @@ function Tweet({toggleBottomMenu}) {
     },[id,navigate])
     const input = useRef();
   
+  
   return (
+
     tweet?.user && (
-        <Box sx={{ my: 3, mx: { lg: 20, md: 5, sm: 5, xs: 3 } }}>
+        <Box sx={{my:3,marginX: isMobile || isTablet ? 3 : 'auto',maxWidth:"1200px"}}>
             <Card variant='outlined' key={id} sx={{mb:3}}>
                 <CardContent sx={{display:"flex"}}>
                     <Box sx={{flex:1}}>
@@ -87,17 +93,26 @@ function Tweet({toggleBottomMenu}) {
 								</Box>
 
 								<Box>
-									<Typography variant="h6">
+									<Typography variant="span">
 										{tweet.user[0].name}
 									</Typography>
 
 									<Typography
-										variant="subtitle1"
+										variant="span"
 										sx={{ color: "text.fade" }}>
 										@{tweet.user[0].handle}
 									</Typography>
+                                    <Typography component="h3" >
+                                                <small>
+                                                    {formatRelative(
+                                                        parseISO(tweet.created),
+                                                        new Date(),
+                                                    )}
+                                                </small>
+                                    </Typography>
 								</Box>
 							</Box>
+                            
                     </Box>
                     <Box>
                         <IconButton
@@ -109,18 +124,20 @@ function Tweet({toggleBottomMenu}) {
 								<MoreVertIcon color="text.fade" />
 							</IconButton>
                     </Box>
+
                 </CardContent>
                 <CardContent>
-						<Typography variant="subtitle1" sx={{ mb: 2 }}>
+						<Typography variant="subtitle1" sx={{ mb: 2,fontSize:20 }}>
 							{tweet.body}
 						</Typography>
 
-						<Typography variant="body2" sx={{ color: "text.fade" }}>
-							{formatRelative(
-								parseISO(tweet.created),
-								new Date(),
-							)}
-						</Typography>
+                        <Box sx={{marginTop:2}}>   
+                            {          
+                                tweet?.images && tweet.images.length> 0 &&(
+                                    <Images images={tweet.images} />
+                                )
+                            }
+                        </Box>  
 				</CardContent>
 
                 {/* origin post tweet action */}
@@ -352,7 +369,7 @@ function Tweet({toggleBottomMenu}) {
                                                 <Typography
                                                     color="text.fade"
                                                     variant="subtitle1"
-                                                    sx={{ fontSize: "16px" }}>
+                                                    sx={{ fontSize: "20px" }}>
                                                     {tweet.origin_tweet[0].body}
                                                 </Typography>
                                             </Box>
@@ -426,7 +443,7 @@ function Tweet({toggleBottomMenu}) {
                                                         
                                                         </Typography>
                                                         <Typography
-                                                            sx={{fontSize:"16px"}}
+                                                            sx={{fontSize:"20px"}}
                                                             variant='subtitle1'
                                                             color="text.fade"
                                                         >
@@ -435,7 +452,7 @@ function Tweet({toggleBottomMenu}) {
                                                         
                                                         </Typography>
                 
-                                                        <Box sx={{mt:2}}>
+                                                        <Box >
                                                             <Typography
                                                                 sx={{mr:1}}
                                                                 component="span"

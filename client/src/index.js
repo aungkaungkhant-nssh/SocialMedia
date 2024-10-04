@@ -7,17 +7,23 @@ import ThemedApp from './ThemedApp';
 import store from './app/store';
 import {Provider} from 'react-redux';
 import { checkAuth } from './features/authSlice';
-import { fetchLatest } from './features/appSlice';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 store.dispatch(checkAuth({}));
 // store.dispatch(fetchLatest({page:0}));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-         <ThemedApp />
-    </Provider>
+     <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+              <ThemedApp />
+          </Provider>
+     </QueryClientProvider>
   
   </React.StrictMode>
 );

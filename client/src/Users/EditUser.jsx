@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     PhotoCamera as PhotoCameraIcon, TrainRounded
 } from "@mui/icons-material"
-import { grey, pink } from '@mui/material/colors';
+import { pink } from '@mui/material/colors';
 import axios from 'axios';
 
 function EditUser() {
@@ -122,6 +122,7 @@ function EditUser() {
                             type="submit"
                             fullWidth={true}
                             variant='contained'
+                            style={{padding:10,fontSize:17}}
                         >
                             {
                                 loading ? <CircularProgress color="inherit" size={20} />

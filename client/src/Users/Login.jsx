@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {Box,InputAdornment,OutlinedInput,Typography,Button, Alert, CircularProgress} from '@mui/material'
-import {  fetchUser, userLogin, userRegister } from '../apiCall';
-import {useDispatch, useSelector} from 'react-redux';
+import { userLogin } from '../apiCall';
+import {useDispatch} from 'react-redux';
 import { checkAuth, setAuthStatus, setUser } from '../features/authSlice';
 import {useNavigate,useSearchParams} from 'react-router-dom'
 import {Google as GoogleIcon } from '@mui/icons-material'
@@ -62,8 +62,6 @@ function Login() {
         <form
             onSubmit={handleUserLogin}
         >
-                
-               
                  <OutlinedInput
 					required
 					inputRef={handleInput}
@@ -88,6 +86,7 @@ function Login() {
                     type="submit"
                     fullWidth={true}
                     variant="contained"
+                    style={{padding:10,fontSize:17}}
                 >
                    {
                     loading ? <CircularProgress color='inherit' size={20} />
@@ -96,8 +95,10 @@ function Login() {
                 </Button>
                 <form action="http://localhost:8000/google"
                 >
-                    <Button startIcon={<GoogleIcon />} fullWidth sx={{mt:2}}
-                    type='submit'
+                    <Button 
+                        startIcon={<GoogleIcon />} fullWidth sx={{mt:2}}
+                        type='submit'
+                        style={{padding:10,fontSize:17}}
                     >
                     Login With Google
                 </Button>

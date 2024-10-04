@@ -41,7 +41,6 @@ function Profile({toggleBottomMenu}) {
   const handleFetchTweet = async(pg)=>{
     
     let {tweet,count,page,total}= await fetchTweetByHandle({handle,page:pg});
-    
     if(!tweet) return navigate("/error");
     setTweets({tweet:[...tweets.tweet,...tweet],count,page,total})
   }

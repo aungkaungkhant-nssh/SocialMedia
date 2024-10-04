@@ -191,7 +191,6 @@ function MainNav({ drawerState, toggleDrawer }) {
     const theme = useTheme();
     let colorMode = useContext(ColorModeContext);
     const {authStatus,user} = useSelector((state)=>state.auth);
- 
 
     return (
         <>
