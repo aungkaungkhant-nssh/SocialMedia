@@ -73,7 +73,7 @@ function Search({open,setOpen}) {
                                         </ListItemAvatar>
                                         <ListItemText 
                                             primary={s.name+"@"+s.handle}
-                                            secondary={"sdf"}
+                                            // secondary={"sdf"}
                                         />
                                     </ListItemButton>
                             </ListItem>

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { AppBar, Badge, IconButton, Toolbar, Typography } from '@mui/material'
 import { useLocation,useNavigate } from 'react-router-dom'
-
+import { lightBlue, pink } from '@mui/material/colors'
 import {
     AccountCircle as AccountCirlceIcon,
     ArrowBack as ArrowBackIcon,
     Hub as HubIcon,
     PersonSearch as PersonSearchIcon,
     Notifications as NotificationsIcon,
-    WbTwilight as WbTwilightIcon
+    WbTwilight as WbTwilightIcon,
+    PostAdd as PostAddIcon
 }
 from "@mui/icons-material"
 import Search from './Search';
@@ -70,7 +71,8 @@ function Header({notis,toggleDrawer}) {
                 disableRipple={true}
                 sx={{flexGrow:1,textAlign:"center"}}
             >
-                <WbTwilightIcon sx={{color:"logo.color",fontSize:38}}/>
+                <PostAddIcon sx={{color:"logo.color",fontSize:38}}/>
+                <Typography sx={{fontSize:25,marginLeft:2,fontWeight:"bolder"}}>InstaPost</Typography>
             </IconButton>
             <IconButton
                 sx={{mr:1}}

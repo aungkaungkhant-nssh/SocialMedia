@@ -26,7 +26,7 @@ passport.use(new GoogleStrategy({
         if(existUser){
           const updateUser ={
             name:profile.displayName,
-            profile:profile._json.picture,
+            profile:existUser.profile ||  profile._json.picture,
             handle:profile.name.givenName
           }
           let loginUser = await User.findOneAndUpdate(

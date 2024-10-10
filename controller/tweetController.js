@@ -4,13 +4,14 @@ const mongoose = require("mongoose");
 const {User} = require("../model/User");
 
 exports.addNewTweet = async(req,res)=>{
-    const {tweet} = req.body;
+    const {tweet,images} = req.body;
     const user = res.locals.user._id;
-    if(!tweet) return res.status(400).json({message:"Tweet body required"})
+    if(!tweet || images.length < 0) return res.status(400).json({message:"Tweet body or images required"})
     try{
         let result = new Tweet({
             type:"post",
             body:tweet,
+            images:images || [],
             created:new Date(),
             owner:user,
             likes:[]
@@ -36,9 +37,9 @@ exports.addNewTweet = async(req,res)=>{
 }
 
 exports.fetchTweets = async(req,res)=>{
-    const limit = 3;
-    const page = parseInt(req.query.page)|| 0
-    const skip = limit*page
+    const limit = 5;
+    const page = parseInt(req.query.page)||0
+    const skip = limit*page;
     try{
         let tweets= await Tweet.aggregate([
                     {
@@ -52,7 +53,7 @@ exports.fetchTweets = async(req,res)=>{
                     {$skip:skip},
                     {$limit:limit},
                     ...relationships,
-                   {$sort:{_id:-1}}
+                   {$sort:{created:-1}}
                     ])
                     
         let tweetTotal = await Tweet.aggregate([
@@ -69,8 +70,10 @@ exports.fetchTweets = async(req,res)=>{
                 $count:"total"
             }
         ])
-       
-        res.status(200).json({tweets,page,limit,count:tweets.length,total:tweetTotal[0]?.total || 0})
+        
+      
+        const hasMore = ( limit*(page+1)) < tweetTotal[0]?.total ;
+        res.status(200).json({tweets,page,limit,count:tweets.length,total:tweetTotal[0]?.total || 0,hasMore})
     }catch(err){
         res.status(500).json({message:"Something went wrong"})
     }
@@ -234,7 +237,7 @@ exports.fetchTweetByHandle = async(req,res)=>{
     
     const {handle} = req.params;
    
-    const limit = 3;
+    const limit = 10;
     const page = parseInt(req.query.page)|| 0
     const skip = limit*page
     try{
@@ -292,7 +295,7 @@ exports.fetchTweetByHandle = async(req,res)=>{
 
 exports.fetchCommentByHandle  = async(req,res)=>{
     const {handle} = req.params;
-    const limit = 3;
+    const limit = 10;
     const page = parseInt(req.query.page)|| 0
     const skip = limit*page;
     try{
@@ -338,7 +341,7 @@ exports.fetchCommentByHandle  = async(req,res)=>{
 
 exports.fetchLikeByHandle = async(req,res)=>{
     const {handle} = req.params;
-    const limit = 3;
+    const limit = 10;
     const page = parseInt(req.query.page)|| 0
     const skip = limit*page;
  

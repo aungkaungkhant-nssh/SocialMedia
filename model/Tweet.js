@@ -9,6 +9,23 @@ const tweetSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    images:[
+        {
+            public_id:{
+                type:String,
+                required:true
+            },
+            imageUrl:{type:String,required:true},
+            width:{
+                type:Number,
+                required:true
+            },
+            height:{
+                type:Number,
+                required:true
+            }
+        }
+    ],
     created:{
         type:Date,
         required:true
